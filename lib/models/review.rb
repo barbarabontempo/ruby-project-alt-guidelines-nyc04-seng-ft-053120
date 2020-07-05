@@ -1,6 +1,5 @@
 class Review < ActiveRecord::Base
     belongs_to :user
-    has_many :users
-    has_many :charities 
+    belongs_to :charity
    
 end
