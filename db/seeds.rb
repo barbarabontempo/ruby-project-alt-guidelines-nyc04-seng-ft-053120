@@ -12,5 +12,3 @@ r1 = Review.create(heading: "The best!", body: "This charity is AMAZING!", ratin
 r2 = Review.create(heading: "Awesome organization!", body: "This charity really saves the world!", rating: 9.5, user_id: sally.id, charity_id: c1.id)
 
 puts "Done SEEEDING! "
-
-#binding.pry
