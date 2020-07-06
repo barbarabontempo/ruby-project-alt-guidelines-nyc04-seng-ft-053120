@@ -1,11 +1,8 @@
-#puropse of this class is to interact with user
-
 class Interface
-   attr_accessor :prompt, :user
+    attr_accessor :prompt, :user
 
     def initialize
         @prompt = TTY::Prompt.new
-        self.welcome
     end
 
     def welcome
@@ -13,17 +10,29 @@ class Interface
     end
 
     def choose_login_or_register
-        prompt.select("Logging in or registering?") do |menu|
-            menu.choice "Logging in", -> { User.loggin_user_in }
-            menu.choice "Registering", -> { User.create_new_user }
+            prompt.select("Are you logging in or registering?") do |menu|
+            menu.choice "Log in", -> { User.logging_someone_in }
+            menu.choice "Register", -> { User.create_a_new_user }
+            #menu.choice "Exit", -> { self.goodbye }
         end
     end
 
-    #need to work on this 
+
+
     def main_menu
-        puts "welcome to the app, #{user.user_name} "
-       
+        puts "Hello, welcome to the app, #{user.user_name}"
+        answer = prompt.select("Main Menu") do |menu|
+            menu.enum "."
+            menu.choice "View all Charities", -> {see_all_charities} #then once in here, be able to filter by cities
+            menu.choice "View my Reviews", -> {user.see_my_reviews}
+            menu.choice "Write a Review", -> {user.create_review}
+            menu.choice "Update a Review", -> {user.update_review}
+            menu.choice "Remove a Review", -> {user.delete_review}
+            menu.choice "Log out", -> { self.goodbye }
+        end
     end
 
- 
+
+
+
 end
