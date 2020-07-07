@@ -33,34 +33,13 @@ class User < ActiveRecord::Base
         prompt = TTY::Prompt.new
         prompt.select("Options:") do |m|
         m.enum "."
-        m.choice "View all charities in our database", -> {self.see_all_charities}
+        m.choice "View all charities", -> {self.all_charities_and_reviews}
         m.choice "View charities in your city only", -> {self.see_charities_in_my_city}
-        m.choice "View reviews of desired charity", -> {self.select_charity_to_view}
         end
     end
 
-
-    #needs to be able to allow the user to go back to main_menu 
-    #this shows all the charity names in our database
-    def see_all_charities
-        prompt = TTY::Prompt.new
-        puts "Here is a list of all our charities: "
-        puts " "
-        puts Charity.all.map { |charity_instance| charity_instance.name}
-         #Interface.main_menu #want the user to be able to go back to the main menu
-    end
-
-    #this allows the user to see all the charity names and urls for charities in their city
-    #also need to allow the user to return back to main menu, not sure how to do this yet
-    def see_charities_in_my_city
-        charities_in_my_city = Charity.all.where(city: self.city)
-        charity_and_url = charities_in_my_city.each { |charity_instance| charity_instance.name + ": " + charity_instance.url}
-        puts charity_and_url
-        #Interface.main_menu #want the user to be able to go back to the main menu
-    end
-
     #this allows user to view a list of charity names and then select a charity that they want to see the reviews for
-    def select_charity_to_view
+    def all_charities_and_reviews
         prompt = TTY::Prompt.new
         i = 1
         Charity.all.each do |charity_instance|
@@ -70,6 +49,22 @@ class User < ActiveRecord::Base
         charity_selection = prompt.ask("What charity would you like to view? Enter the number: ").to_i
         the_charity = Charity.all[charity_selection - 1]
         self.see_charity_reviews(the_charity)
+    end
+    
+    #this allows the user to see all the charity names and urls for charities in their city
+    #also need to allow the user to return back to main menu, not sure how to do this yet
+    def see_charities_in_my_city
+        prompt = TTY::Prompt.new
+        i = 1
+        charities_in_my_city = Charity.all.where(city: self.city)
+        charities_in_my_city.each do |charity_instance| 
+            puts "#{i}. #{charity_instance.name} - #{charity_instance.url}"
+            i += 1
+        end
+        charity_selection = prompt.ask("Which charity would you like to view? Enter the number: ").to_i
+        the_charity = Charity.all[charity_selection - 1]
+        self.see_charity_reviews(the_charity)
+        #binding.pry
     end
 
     #this method displays all the reviews for selected charity
