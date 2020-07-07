@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
         new_user = User.create(name: user_info[:name], city: user_info[:city], user_name: user_info[:user_name])
     end
 
-
+    # Might be better as an Interface instance method
     def view_charities
         prompt = TTY::Prompt.new
         prompt.select("Options:") do |m|
@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
     end
 
     #this allows user to view a list of charity names and then select a charity that they want to see the reviews for
+    # Might be better as a Charity class method
     def all_charities_and_reviews
         prompt = TTY::Prompt.new
         i = 1
@@ -63,11 +64,16 @@ class User < ActiveRecord::Base
         end
         charity_selection = prompt.ask("Which charity would you like to view? Enter the number: ").to_i
         the_charity = Charity.all[charity_selection - 1]
-        self.see_charity_reviews(the_charity)
+        # self.see_charity_reviews(the_charity)
+        # Line 68  instead of 66
+        Charity.show_reviews(the_charity)
+        the_charity
         #binding.pry
     end
 
     #this method displays all the reviews for selected charity
+    # Might be better as a Charity class method
+    # Charity.see_charity_reviews(charity_instance)
     def see_charity_reviews(charity)
         #binding.pry
         charity_reviews = Review.where(charity_id: charity.id)
@@ -80,9 +86,8 @@ class User < ActiveRecord::Base
        puts "----------"}
     end
 
-
-
-
-
+    def write_review(heading:, body:, rating:, charity:)
+        Review.create_review(heading: heading, body: body, rating: rating, user: self, charity: charity)
+    end
 
 end

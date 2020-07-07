@@ -7,7 +7,9 @@ class Charity < ActiveRecord::Base
     #     Charity.all.select { |charity_instance| charity_instance.city}
     # end
 
-
+    def self.find_by_city(city_name)
+        Charity.find_by(name: city_name)
+    end
 end
 
 

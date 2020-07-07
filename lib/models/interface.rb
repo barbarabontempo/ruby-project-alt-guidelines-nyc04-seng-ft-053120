@@ -51,11 +51,18 @@ class Interface
     end
 
     def view_charities_menu
-        user.view_charities
+        charity_instance = user.view_charities
+        # review charity
         
-        main_menu
+        # menu.choice "Leave a Review", -> {self.create_user_review_for_charity(charity_instance)}
     end
 
+    # def create_user_review(charity)
+    #     heading = #prompt
+    #     body = #prompt
+    #     rating = #rating
+    #     user.write_review(heading: heading, body: body, rating: rating, charity: charity)
+    end
 
     def goodbye
         Interface.heart_animation
