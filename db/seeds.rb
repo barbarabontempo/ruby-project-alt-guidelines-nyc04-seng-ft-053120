@@ -3,7 +3,7 @@ User.destroy_all
 Charity.destroy_all
 Review.destroy_all
 
-john = User.create(name: "John", city: "NYC", user_name: "cooljohn")
+barb = User.create(name: "Barbara", city: "NYC", user_name: "barb")
 sally = User.create(name: "Sally", city: "NYC", user_name: "sallysaves")
 
 c1 = Charity.create(name: "Robinhood Foundation", city: "NYC", url: "www.robinhood.org")
@@ -17,7 +17,8 @@ c8 = Charity.create(name: "Legal Aid Chicago", city: "CHI", url: "www.leagalaidc
 c9 = Charity.create(name: "PAWS Chicago", city: "CHI", url: "www.pawschicago.org")
 c10 = Charity.create(name: "The Audre Lord Project", city: "NYC", url: "www.alp.org")
 
-r1 = Review.create(heading: "The best!", body: "This charity is AMAZING!", rating: 8.9, user_id: john, charity_id: c1.id)
-r2 = Review.create(heading: "Awesome organization!", body: "This charity really makes the world better!", rating: 9.5, user_id: sally.id, charity_id: c1.id)
+r1 = Review.create(heading: "The best!", body: "This charity is AMAZING!", rating: 8.9, user_id: barb.id, charity_id: c1.id)
+r2 = Review.create(heading: "Amazing work!", body: "They provide meals for many people in NYC!", rating: 9.5, user_id: barb.id, charity_id: c2.id)
+r3 = Review.create(heading: "Awesome organization!", body: "This charity really makes the world better!", rating: 9.5, user_id: sally.id, charity_id: c1.id)
 
 puts "Done SEEEDING! "
