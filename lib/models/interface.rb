@@ -52,7 +52,6 @@ class Interface
 
     def view_charities_menu
         user.view_charities
-        
         main_menu
     end
 

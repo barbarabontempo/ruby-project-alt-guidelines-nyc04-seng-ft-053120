@@ -7,7 +7,8 @@ class Charity < ActiveRecord::Base
     #     Charity.all.select { |charity_instance| charity_instance.city}
     # end
 
-
+#in the charity class, havea method that finds teh charity by city 
+#
 end
 
 
