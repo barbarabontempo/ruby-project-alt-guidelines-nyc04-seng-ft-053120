@@ -54,6 +54,7 @@ class Interface
 
     def display_charities_in_my_city
         user.display_charities_in_my_city
+        view_charities_menu
     end
 
     def see_user_reviews
