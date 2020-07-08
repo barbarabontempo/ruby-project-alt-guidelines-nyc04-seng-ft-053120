@@ -27,15 +27,13 @@ class Interface
             prompt.select("Are you logging in or registering?") do |menu|
             menu.choice "Log in", -> { User.logging_someone_in }
             menu.choice "Register", -> { User.create_a_new_user }
-            #menu.choice "Exit", -> { self.goodbye }
+            menu.choice "Log out", -> { self.goodbye }
         end
     end
 
 
 
     def main_menu
-        # Interface.heart_animation
-        # system("clear")
         puts "          Chlarity is happy to see you #{user.user_name}!         "
         puts " "
         puts "              Lets find you the perfect charity!              "                                                  
@@ -51,10 +49,20 @@ class Interface
     end
 
     def view_charities_menu
-        user.view_charities
-        main_menu
+        prompt = TTY::Prompt.new
+        prompt.select("Options:") do |m|
+            m.enum "."
+            m.choice "View all charities", -> {self.display_all_charities} #interface instance method that displays all charities 
+            m.choice "View charities in your city only", -> {charity.display_charities}
+            m.choice "Go back to main menu", -> {self.main_menu}
+        end
     end
 
+
+    def display_all_charities
+        user.display_all_charities
+        self.view_charities
+    end
 
     def goodbye
         Interface.heart_animation
@@ -68,7 +76,7 @@ class Interface
      
 
 
-      def self.heart_animation
+    def self.heart_animation
         frame0 = "
                     `-:.      -:-`     
                     +mdsoyms.-ymyosdd/   

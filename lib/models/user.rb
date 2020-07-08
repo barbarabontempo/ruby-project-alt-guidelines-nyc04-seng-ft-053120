@@ -28,61 +28,73 @@ class User < ActiveRecord::Base
         new_user = User.create(name: user_info[:name], city: user_info[:city], user_name: user_info[:user_name])
     end
 
+    def charities_in_my_city
+       user_charity = Charity.find_by_city(self.city)
+    end
 
-    def view_charities
+    def display_all_charities
         prompt = TTY::Prompt.new
-        prompt.select("Options:") do |m|
-        m.enum "."
-        m.choice "View all charities", -> {self.all_charities_and_reviews}
-        m.choice "View charities in your city only", -> {self.see_charities_in_my_city}
+        charities = Charity.all.map do |charity|
+            {charity.name => charity.id}
+        end
+        if !charities.empty?
+            charity_id = prompt.select("Which charity would you like to view?", charities)
+            charity = Charity.find_by(id: charity_id)
+            Review.display_reviews_by_charity(charity)
+            user_review = Review.find_by(user_id: self.id)
+            if user_review.nil?
+                prompt.select("Options: ") do |m|
+                    m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
+                    m.choice "Would you like to go back?", -> {self.display_all_charities}
+                end
+            else
+                prompt.select("Options: ") do |m|
+                    m.choice "Update review", -> {self.update_review_for_charity(charity)}
+                    m.choice "Delete review", -> {self.delete_review_for_charity(charity)}
+                    m.choice "Would you like to go back?", -> {self.display_all_charities}
+                end
+            end
+        else
+            puts "There are no charities to display!"
+        end
+
+    end
+
+    def create_review(heading:, body:, rating:, charity:)
+        Review.create_review(heading: heading, body: body, rating: rating, user: self, charity: charity)
+    end
+
+    def write_review_for_charity(charity)
+        prompt = TTY::Prompt.new
+        review_info = prompt.collect do 
+            key(:rating).ask("On a scale of 1-10 what would you rate this charity?")
+            key(:heading).ask("Please enter your review title: ")
+            key(:body).ask("Please enter your review: ")
+        end
+        review_info[:charity] = charity
+        self.create_review(review_info)
+    end
+
+    def update_review
+
+    end
+
+    def update_review_for_charity
+        prompt = TTY::Prompt.new
+        review_info = prompt.collect do 
+            key(:rating).ask("On a scale of 1-10 what would you rate this charity?")
+            key(:heading).ask("Please enter your review title: ")
+            key(:body).ask("Please enter your review: ")
         end
     end
 
-    #this allows user to view a list of charity names and then select a charity that they want to see the reviews for
-    def all_charities_and_reviews
-        prompt = TTY::Prompt.new
-        i = 1
-        Charity.all.each do |charity_instance|
-            puts "#{i}. #{charity_instance.name}"  
-            i += 1
-        end
-        charity_selection = prompt.ask("What charity would you like to view? Enter the number: ").to_i
-        the_charity = Charity.all[charity_selection - 1]
-        self.see_charity_reviews(the_charity)
-    end
-    
-    #this allows the user to see all the charity names and urls for charities in their city
-    #also need to allow the user to return back to main menu, not sure how to do this yet
-    def see_charities_in_my_city
-        prompt = TTY::Prompt.new
-        i = 1
-        charities_in_my_city = Charity.all.where(city: self.city)
-        charities_in_my_city.each do |charity_instance| 
-            puts "#{i}. #{charity_instance.name} - #{charity_instance.url}"
-            i += 1
-        end
-        charity_selection = prompt.ask("Which charity would you like to view? Enter the number: ").to_i
-        the_charity = Charity.all[charity_selection - 1]
-        self.see_charity_reviews(the_charity)
-        #binding.pry
+    def delete_review
+
     end
 
-    #this method displays all the reviews for selected charity
-    def see_charity_reviews(charity)
-        #binding.pry
-        charity_reviews = Review.where(charity_id: charity.id)
-    #tomorrow maybe add a line here that says; "Here are the reviews for: charity name"
-       charity_reviews.each { |review_instance| 
-       puts "Rating: #{review_instance.rating}"
-       puts review_instance.heading
-       puts review_instance.body 
-       puts "Written by: #{review_instance.user.name}" 
-       puts "----------"}
+    def delete_review_for_charity
+
     end
-
-
-
-
 
 
 end
