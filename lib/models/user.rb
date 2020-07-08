@@ -37,25 +37,27 @@ class User < ActiveRecord::Base
             charity_id = prompt.select("Which charity would you like to view?", charities)
             charity = Charity.find_by(id: charity_id)
             Review.display_reviews_by_charity(charity)
-            user_review = Review.find_by(user_id: self.id)
+            user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
             #binding.pry
             if user_review.nil?
                 prompt.select("Options: ") do |m|
                     m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
-                    m.choice "Would you like to go back?", -> {self.display_all_charities}
+                    m.choice "View another charity", -> {self.display_all_charities}
+                    m.choice "Back to charities menu", -> {return}
                 end
             else
                 prompt.select("Options: ") do |m|
-                    m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
                     m.choice "Update review", -> {self.update_review_for_charity(charity)}
                     m.choice "Delete review", -> {self.delete_review_for_charity(charity)}
-                    m.choice "Would you like to go back?", -> {self.display_all_charities}
+                    m.choice "View another charity", -> {self.display_all_charities}
+                    m.choice "Back to main menu", -> {return}
                 end
             end
         else
             puts "There are no charities to display!"
         end
     end
+
 
     def display_charities_in_my_city
         prompt = TTY::Prompt.new
@@ -88,11 +90,20 @@ class User < ActiveRecord::Base
     end
     
     def see_my_reviews
-        user_reviews = User.find_by(id: self.id).reviews
+        prompt = TTY::Prompt.new
+        user_reviews = self.reviews
         revs_to_print = user_reviews.map do |rev| 
-            [rev.rating, rev.heading, rev.body, rev.user.name]
+            [rev.charity.name, rev.rating, rev.heading, rev.body]
         end
-           Review.reviews_display_table(revs_to_print)
+        Review.user_reviews_display_table(revs_to_print)
+        rev_idx = prompt.ask("Please choose a review [1-#{revs_to_print.length}]:", convert: :int)
+        review = user_reviews[rev_idx - 1]
+            prompt.select("Options: ") do |m|
+                m.choice "Update review", -> {self.update_review_content(review)}
+                m.choice "Delete review", -> {Review.delete_review(review)}
+                m.choice "Choose another review", -> {self.see_my_reviews}
+                m.choice "Back to main menu", -> {return}
+            end
     end
 
     def create_review(heading:, body:, rating:, charity:)
@@ -108,27 +119,21 @@ class User < ActiveRecord::Base
         end
         review_info[:charity] = charity
         self.create_review(review_info)
+        puts "Your review has been submitted!"
+        prompt.select("Options: ") do |m|
+            m.choice "View another charity", -> {self.display_all_charities}
+            #m.choice "Back to main menu", -> {}
+        end
     end
 
-    def update_review
-
-    end
-
-    def update_review_for_charity
+    def update_review_content(review)
         prompt = TTY::Prompt.new
         review_info = prompt.collect do 
             key(:rating).ask("On a scale of 1-10 what would you rate this charity?")
             key(:heading).ask("Please enter your review title: ")
             key(:body).ask("Please enter your review: ")
         end
-    end
-    
-    def delete_review
-    end
-
-    def delete_review_for_charity
-    end
-
-
+        review.update(review_info)
+    end   
 
 end

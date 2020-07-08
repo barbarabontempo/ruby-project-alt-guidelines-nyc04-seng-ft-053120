@@ -28,10 +28,30 @@ class Review < ActiveRecord::Base
     end
 
     def self.reviews_display_table(array_to_print)
-        reviews_table = TTY::Table.new ['Rating', 'Title', 'Review', 'Written by'], array_to_print
+        list_num = 1
+        array_to_print.each do |list|
+             list.unshift(list_num)
+             list_num += 1
+        end
+        reviews_table = TTY::Table.new ['No.', 'Rating', 'Title', 'Review', 'Written by'], array_to_print
+        puts reviews_table.render(:unicode, alignments: [:center, :center], padding: [1,1,0,1] )
+        #binding.pry
+    end
+
+
+    def self.user_reviews_display_table(array_to_print)
+        list_num = 1
+        array_to_print.each do |list|
+             list.unshift(list_num)
+             list_num += 1
+        end
+        reviews_table = TTY::Table.new ['No.', 'Charity Name', 'Rating', 'Title', 'Review'], array_to_print
         puts reviews_table.render(:unicode, alignments: [:center, :center], padding: [1,1,0,1] )
         #binding.pry
     end
     
+    def self.delete_review(review)
+        review.destroy
+    end
 
 end

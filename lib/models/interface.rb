@@ -25,17 +25,14 @@ class Interface
     end
 
     def main_menu
-        Interface.heart_animation
+        #Interface.heart_animation
         puts "          Chlarity is happy to see you #{user.user_name}!         "
         puts " "
         puts "              Lets find you the perfect charity!              "                                                  
         answer = prompt.select("Main Menu") do |menu|
             menu.enum "."
             menu.choice "Search for Charities", -> {self.view_charities_menu} #then once in here, be able to filter by cities
-            menu.choice "View my Reviews", -> {user.see_my_reviews}
-            menu.choice "Write a Review", -> {user.create_review}
-            menu.choice "Update a Review", -> {user.update_review}
-            menu.choice "Remove a Review", -> {user.delete_review}
+            menu.choice "View my Reviews", -> {self.see_user_reviews}
             menu.choice "Log out", -> { self.goodbye }
         end
     end
@@ -52,12 +49,17 @@ class Interface
 
     def display_all_charities
         user.display_all_charities
+        view_charities_menu
     end
 
     def display_charities_in_my_city
         user.display_charities_in_my_city
     end
 
+    def see_user_reviews
+        user.see_my_reviews
+        self.main_menu
+    end
 
     def goodbye
         Interface.heart_animation
