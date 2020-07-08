@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
     has_many :reviews
     has_many :charities, through: :reviews
-
+    
     def self.logging_someone_in
         prompt = TTY::Prompt.new
         user_name = prompt.ask("Insert your username:")
@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
             not_found == "Try Again" ? self.logging_someone_in : self.create_a_new_user
         end
     end
- 
+
     def self.create_a_new_user
         prompt = TTY::Prompt.new
         user_info = prompt.collect do
@@ -57,7 +57,6 @@ class User < ActiveRecord::Base
         else
             puts "There are no charities to display!"
         end
-
     end
 
     def create_review(heading:, body:, rating:, charity:)
@@ -76,7 +75,6 @@ class User < ActiveRecord::Base
     end
 
     def update_review
-
     end
 
     def update_review_for_charity
@@ -87,14 +85,11 @@ class User < ActiveRecord::Base
             key(:body).ask("Please enter your review: ")
         end
     end
-
+    
     def delete_review
-
     end
 
     def delete_review_for_charity
-
     end
-
 
 end

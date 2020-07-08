@@ -58,7 +58,6 @@ class Interface
         end
     end
 
-
     def display_all_charities
         user.display_all_charities
         self.view_charities
@@ -74,7 +73,6 @@ class Interface
 
     end
      
-
 
     def self.heart_animation
         frame0 = "
