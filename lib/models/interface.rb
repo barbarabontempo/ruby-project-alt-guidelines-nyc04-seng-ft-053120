@@ -24,14 +24,13 @@ class Interface
     end
 
     def choose_login_or_register
+        #Interface.
             prompt.select("Are you logging in or registering?") do |menu|
             menu.choice "Log in", -> { User.logging_someone_in }
             menu.choice "Register", -> { User.create_a_new_user }
             menu.choice "Log out", -> { self.goodbye }
         end
     end
-
-
 
     def main_menu
         puts "          Chlarity is happy to see you #{user.user_name}!         "
@@ -60,7 +59,7 @@ class Interface
 
     def display_all_charities
         user.display_all_charities
-        self.view_charities
+        #self.view_charities
     end
 
     def goodbye
@@ -72,7 +71,6 @@ class Interface
         puts "Thank you for choosing us."
 
     end
-     
 
     def self.heart_animation
         frame0 = "

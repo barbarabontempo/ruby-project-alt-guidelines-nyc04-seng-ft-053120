@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
             charity = Charity.find_by(id: charity_id)
             Review.display_reviews_by_charity(charity)
             user_review = Review.find_by(user_id: self.id)
+            #binding.pry
             if user_review.nil?
                 prompt.select("Options: ") do |m|
                     m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
@@ -49,6 +50,7 @@ class User < ActiveRecord::Base
                 end
             else
                 prompt.select("Options: ") do |m|
+                    m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
                     m.choice "Update review", -> {self.update_review_for_charity(charity)}
                     m.choice "Delete review", -> {self.delete_review_for_charity(charity)}
                     m.choice "Would you like to go back?", -> {self.display_all_charities}
@@ -59,6 +61,7 @@ class User < ActiveRecord::Base
         end
     end
 
+    
     def create_review(heading:, body:, rating:, charity:)
         Review.create_review(heading: heading, body: body, rating: rating, user: self, charity: charity)
     end
@@ -91,5 +94,7 @@ class User < ActiveRecord::Base
 
     def delete_review_for_charity
     end
+
+
 
 end

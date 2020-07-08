@@ -18,18 +18,20 @@ class Review < ActiveRecord::Base
         Review.create(heading: heading, body: body, rating: rating, user_id: user.id, charity_id: charity.id)
     end
 
-    #this method displays all the reviews for selected charity
-    #creating a table for display
+
     def self.display_reviews_by_charity(charity)
-       charity_reviews = Review.where(charity_id: charity.id)
-       charity_reviews.each do |review_instance| 
-            puts "Rating: #{review_instance.rating}"
-            puts review_instance.heading
-            puts review_instance.body 
-            puts "Written by: #{review_instance.user.name}"
-            puts "----------"
-       end
+        charity_reviews_arr = Review.all.select { |rev| rev.charity_id == charity.id }
+        values_to_print = charity_reviews_arr.map do |rev| 
+            [rev.rating, rev.heading, rev.body, rev.user.name]
+        end
+           self.reviews_display_table(values_to_print)
     end
 
+    def self.reviews_display_table(array_to_print)
+        reviews_table = TTY::Table.new ['Rating', 'Title', 'Review', 'Written by'], array_to_print
+        puts reviews_table.render(:unicode, alignments: [:center, :center], padding: [1,1,0,1] )
+        #binding.pry
+    end
+    
 
 end
