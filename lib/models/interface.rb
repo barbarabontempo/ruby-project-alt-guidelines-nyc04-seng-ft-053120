@@ -6,25 +6,17 @@ class Interface
     end
 
     def welcome
-        puts "Welcome to...".colorize(:color => :white, :background => :magenta)
+        puts "Welcome to...".colorize(:color => :white, :background => :green)
         sleep(0.5)
-        puts "
-
-         ██████╗██╗  ██╗██╗      █████╗ ██████╗ ██╗████████╗██╗   ██╗
-        ██╔════╝██║  ██║██║     ██╔══██╗██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-        ██║     ███████║██║     ███████║██████╔╝██║   ██║    ╚████╔╝ 
-        ██║     ██╔══██║██║     ██╔══██║██╔══██╗██║   ██║     ╚██╔╝  
-        ╚██████╗██║  ██║███████╗██║  ██║██║  ██║██║   ██║      ██║   
-         ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
-                                                                    
-        ".magenta
+        Interface.chlarity_logo
         sleep(0.5)
-        puts "        Where we help you be an informed donor... because not everyone deserves your coins!        ".colorize(:color => :white, :background => :magenta) 
+        puts " "
+        puts "        Where we help you be an informed donor... because not everyone deserves your coins!        ".colorize(:color => :white, :background => :green) 
         
     end
 
     def choose_login_or_register
-        #Interface.
+            puts " "
             prompt.select("Are you logging in or registering?") do |menu|
             menu.choice "Log in", -> { User.logging_someone_in }
             menu.choice "Register", -> { User.create_a_new_user }
@@ -33,6 +25,7 @@ class Interface
     end
 
     def main_menu
+        Interface.heart_animation
         puts "          Chlarity is happy to see you #{user.user_name}!         "
         puts " "
         puts "              Lets find you the perfect charity!              "                                                  
@@ -43,7 +36,7 @@ class Interface
             menu.choice "Write a Review", -> {user.create_review}
             menu.choice "Update a Review", -> {user.update_review}
             menu.choice "Remove a Review", -> {user.delete_review}
-            menu.choice "Log out", -> { self.goodbye } #need goodbye method
+            menu.choice "Log out", -> { self.goodbye }
         end
     end
 
@@ -51,16 +44,20 @@ class Interface
         prompt = TTY::Prompt.new
         prompt.select("Options:") do |m|
             m.enum "."
-            m.choice "View all charities", -> {self.display_all_charities} #interface instance method that displays all charities 
-            m.choice "View charities in your city only", -> {charity.display_charities}
+            m.choice "View all charities", -> {self.display_all_charities} 
+            m.choice "View charities in your city only", -> {self.display_charities_in_my_city}
             m.choice "Go back to main menu", -> {self.main_menu}
         end
     end
 
     def display_all_charities
         user.display_all_charities
-        #self.view_charities
     end
+
+    def display_charities_in_my_city
+        user.display_charities_in_my_city
+    end
+
 
     def goodbye
         Interface.heart_animation
@@ -70,6 +67,17 @@ class Interface
         puts " "
         puts "Thank you for choosing us."
 
+    end
+
+    def self.chlarity_logo
+        puts "
+         ██████╗██╗  ██╗██╗      █████╗ ██████╗ ██╗████████╗██╗   ██╗
+        ██╔════╝██║  ██║██║     ██╔══██╗██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
+        ██║     ███████║██║     ███████║██████╔╝██║   ██║    ╚████╔╝ 
+        ██║     ██╔══██║██║     ██╔══██║██╔══██╗██║   ██║     ╚██╔╝  
+        ╚██████╗██║  ██║███████╗██║  ██║██║  ██║██║   ██║      ██║   
+         ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
+            ".yellow
     end
 
     def self.heart_animation
@@ -89,7 +97,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame1 = "
                     `-:.      -:-`     
@@ -107,7 +115,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame2 = "
                     `-:.      -:-`     
@@ -125,7 +133,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame3 = "
                     `-:.      -:-`     
@@ -143,7 +151,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame4 = "
                     `-:.      -:-`     
@@ -161,7 +169,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame5 = "
                     `-:.      -:-`     
@@ -179,7 +187,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame6 = "
                     `-:.      -:-`     
@@ -197,7 +205,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame7 = "
                     `-:.      -:-`     
@@ -215,7 +223,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame8 = "
                     `-:.      -:-`     
@@ -233,7 +241,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame9 = "
                     `-:.      -:-`     
@@ -251,7 +259,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame10 = "
                     `-:.      -:-`     
@@ -269,7 +277,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame11 = "
                     `-:.      -:-`     
@@ -287,7 +295,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame12 = "
                     `-:.      -:-`     
@@ -305,7 +313,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame12 = "
                     `-:.      -:-`     
@@ -323,7 +331,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame13 = "
                               -:-`     
@@ -341,7 +349,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame14 = "
                     `-:.      -:-`     
@@ -359,7 +367,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         frame15 = "
                     `-:.           
@@ -377,7 +385,7 @@ class Interface
             `hdddddhs:`-ohhyyyss+/Ny`    
                    `:smhooooooooyN/      
                        .::::::::-` 
-        ".magenta
+        ".yellow 
 
         animation_array = [frame0, frame1, frame2, 
         frame3, frame4, frame5, frame6, frame7, frame8,
