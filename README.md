@@ -20,7 +20,7 @@
 ## Main Menu
 1. Search for Charities - Allows you to look up all charities or only charities in your city
   - You can view, rate, and review charities from here.
-1. View My Reivews - Shows all of your reviews
+2. View My Reivews - Shows all of your reviews
   - You can view, update or delete your reviews from here.
 
 ## Gems Used
