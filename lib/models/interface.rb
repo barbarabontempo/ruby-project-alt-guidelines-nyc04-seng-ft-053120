@@ -30,10 +30,10 @@ class Interface
                  ╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐┬               
                  ║║║├┤ │  │  │ ││││├┤ │               
                  ╚╩╝└─┘┴─┘└─┘└─┘┴ ┴└─┘o               
-                                                      ".colorize(:color => :yellow, :background => :white) 
-        puts "          Chlarity is happy to see you #{user.user_name}!          ".colorize(:color => :yellow, :background => :white) 
-        puts "                                                      ".colorize(:color => :yellow, :background => :white) 
-        puts "          Lets find you the perfect charity!          ".colorize(:color => :yellow, :background => :white)  
+                                                      ".yellow                                     
+        puts "          Chlarity is happy to see you #{user.user_name}!          ".yellow
+        puts "                                                      ".yellow
+        puts "          Lets find you the perfect charity!          ".yellow  
         puts " "
         answer = prompt.select("Main Menu") do |menu|
             puts " "
@@ -417,6 +417,7 @@ class Interface
             while i < 5
                 animation_array.each do |frame|
                     puts frame
+                    puts "Almost there..."
                     sleep(0.05)
                     system("clear")
                     i+=1
@@ -425,8 +426,7 @@ class Interface
             end
         end
       end
-
-
+    
 end
 
 

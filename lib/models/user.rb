@@ -28,68 +28,35 @@ class User < ActiveRecord::Base
         new_user = User.create(name: user_info[:name], city: user_info[:city], user_name: user_info[:user_name])
     end
 
-    def display_all_charities
-        prompt = TTY::Prompt.new
-        charities = Charity.all.map do |charity|
-            {charity.name => charity.id}
-        end
-        if !charities.empty?
-            charity_id = prompt.select("Which charity would you like to view?", charities)
-            charity = Charity.find_by(id: charity_id)
-            Review.display_reviews_by_charity(charity)
-            user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
-            #binding.pry
-            if user_review.nil?
-                prompt.select("Options: ") do |m|
-                    m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
-                    m.choice "View another charity", -> {self.display_all_charities}
-                    m.choice "Back to charities menu", -> {return}
-                end
-            else
-                prompt.select("Options: ") do |m|
-                    # m.choice "Update review", -> {self.update_review_for_charity(charity)}
-                    # m.choice "Delete review", -> {self.delete_review_for_charity(charity)}
-                    m.choice "View another charity", -> {self.display_all_charities}
-                    m.choice "Go back", -> {return}
-                end
-            end
-        else
-            puts "There are no charities to display!"
-        end
+def display_all_charities
+    prompt = TTY::Prompt.new
+    values_to_print = Charity.all.map do |charity|
+        [charity.name, charity.reviews.average(:rating).to_f, charity.city]
     end
+    Review.charities_display_table(values_to_print)
+    charity_idx = prompt.ask("Please choose a charity to view [1-#{values_to_print.length}]:", convert: :int)
+    charity = values_to_print[charity_idx - 1][1]
+    found_charity = Charity.find_by(name: charity)
+    #binding.pry
+    Review.display_reviews_by_charity(found_charity)
+    #user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
+end
 
 
-    def display_charities_in_my_city
-        prompt = TTY::Prompt.new
-        my_charities = Charity.find_by_city(self.city)
-        charities = my_charities.all.map do |charity|
-            {charity.name => charity.id}
-        end
-        if !charities.empty?
-            charity_id = prompt.select("Which charity would you like to view?", charities)
-            charity = Charity.find_by(id: charity_id)
-            Review.display_reviews_by_charity(charity)
-            user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
-            #binding.pry
-            if user_review.nil?
-                prompt.select("Options: ") do |m|
-                    m.choice "Would you like to leave a review?", -> {self.write_review_for_charity(charity)}
-                    m.choice "View another charity", -> {self.display_charities_in_my_city}
-                    m.choice "Back to charities menu", -> {return}
-                end
-            else
-                prompt.select("Options: ") do |m|
-                    m.choice "View another charity", -> {self.display_charities_in_my_city}
-                    m.choice "Go back", -> {return}
-                end
-            end
-        else
-            puts "There are no charities to display!"
-            prompt.select("Options: ") do |m|
-                m.choice "Back to main menu", -> {return}
-            end
-        end
+
+def display_charities_in_my_city
+    prompt = TTY::Prompt.new
+    my_charities = Charity.find_by_city(self.city)
+    values_to_print = my_charities.map do |charity|
+        [charity.name, charity.reviews.average(:rating).to_f, charity.city]
     end
+    Review.charities_display_table(values_to_print)
+    charity_idx = prompt.ask("Please choose a charity to view [1-#{values_to_print.length}]:", convert: :int)
+    charity = values_to_print[charity_idx - 1][1]
+    found_charity = Charity.find_by(name: charity)
+    #binding.pry
+    Review.display_reviews_by_charity(found_charity)
+end
     
     def see_my_reviews
         prompt = TTY::Prompt.new
@@ -124,7 +91,7 @@ class User < ActiveRecord::Base
         puts "Your review has been submitted!"
         prompt.select("Options: ") do |m|
             m.choice "View another charity", -> {self.display_all_charities}
-            #m.choice "Back to main menu", -> {}
+            m.choice "Back to main menu", -> {return}
         end
     end
 
