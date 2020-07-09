@@ -13,3 +13,4 @@ gem 'tty-prompt'
 gem "paint"
 gem "colorize"
 gem 'tty-table' 
+gem 'tty-spinner'

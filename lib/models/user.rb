@@ -1,10 +1,14 @@
 class User < ActiveRecord::Base
     has_many :reviews
     has_many :charities, through: :reviews
-    
+
     def self.logging_someone_in
         prompt = TTY::Prompt.new
         user_name = prompt.ask("Insert your username:")
+        spinner = TTY::Spinner.new("[:spinner] Loading...".colorize(:color => :yellow, :background => :light_white), format: :arrow_pulse)
+        spinner.auto_spin 
+        sleep(1)
+        spinner.stop('Done!'.colorize(:color => :yellow, :background => :light_white))
         find_user = User.find_by(user_name: user_name)
         if find_user
             return find_user 
