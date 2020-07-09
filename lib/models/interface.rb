@@ -6,13 +6,13 @@ class Interface
     end
 
     def welcome
-        puts "Welcome to...".colorize(:color => :white, :background => :green)
+        puts "Welcome to...".colorize(:color => :yellow, :background => :white)
         sleep(0.5)
         Interface.chlarity_logo
         sleep(0.5)
-        puts " "
-        puts "        Where we help you be an informed donor... because not everyone deserves your coins!        ".colorize(:color => :white, :background => :green) 
-        
+        puts "                                                                                                   ".colorize(:color => :yellow, :background => :white) 
+        puts "        Where we help you be an informed donor... because not everyone deserves your coins!        ".colorize(:color => :yellow, :background => :white) 
+        puts "                                                                                                   ".colorize(:color => :yellow, :background => :white) 
     end
 
     def choose_login_or_register
@@ -25,11 +25,18 @@ class Interface
     end
 
     def main_menu
-        #Interface.heart_animation
-        puts "          Chlarity is happy to see you #{user.user_name}!         "
+        Interface.heart_animation
+        puts "                                                      
+                 ╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐┬               
+                 ║║║├┤ │  │  │ ││││├┤ │               
+                 ╚╩╝└─┘┴─┘└─┘└─┘┴ ┴└─┘o               
+                                                      ".colorize(:color => :yellow, :background => :white) 
+        puts "          Chlarity is happy to see you #{user.user_name}!          ".colorize(:color => :yellow, :background => :white) 
+        puts "                                                      ".colorize(:color => :yellow, :background => :white) 
+        puts "          Lets find you the perfect charity!          ".colorize(:color => :yellow, :background => :white)  
         puts " "
-        puts "              Lets find you the perfect charity!              "                                                  
         answer = prompt.select("Main Menu") do |menu|
+            puts " "
             menu.enum "."
             menu.choice "Search for Charities", -> {self.view_charities_menu} #then once in here, be able to filter by cities
             menu.choice "View my Reviews", -> {self.see_user_reviews}
@@ -66,21 +73,32 @@ class Interface
         Interface.heart_animation
         sleep(0.3)
         system("clear")
-        puts "Goodbye"
-        puts " "
-        puts "Thank you for choosing us."
-
+        puts "                                        
+        ╔═╗┌─┐┌─┐┌┬┐┌┐ ┬ ┬┌─┐┬          
+        ║ ╦│ ││ │ ││├┴┐└┬┘├┤ │          
+        ╚═╝└─┘└─┘─┴┘└─┘ ┴ └─┘o          
+                                        ".colorize(:color => :yellow, :background => :white)
+        puts "🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞🌞".colorize(:color => :yellow, :background => :white)   
+        puts "      🌼Thank you for choosing us✨     ".colorize(:color => :yellow, :background => :white)
+        puts "        We hope to see you again!       ".colorize(:color => :yellow, :background => :white)
+        system('exit')
     end
 
     def self.chlarity_logo
         puts "
-         ██████╗██╗  ██╗██╗      █████╗ ██████╗ ██╗████████╗██╗   ██╗
-        ██╔════╝██║  ██║██║     ██╔══██╗██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-        ██║     ███████║██║     ███████║██████╔╝██║   ██║    ╚████╔╝ 
-        ██║     ██╔══██║██║     ██╔══██║██╔══██╗██║   ██║     ╚██╔╝  
-        ╚██████╗██║  ██║███████╗██║  ██║██║  ██║██║   ██║      ██║   
-         ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
-            ".yellow
+               _.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.-._
+             ,'_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-.`.
+             ( (                                                                  ) )
+             ( (    ██████╗██╗  ██╗██╗      █████╗ ██████╗ ██╗████████╗██╗   ██╗  ) )
+              ) )  ██╔════╝██║  ██║██║     ██╔══██╗██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝ ( (
+             ( (   ██║     ███████║██║     ███████║██████╔╝██║   ██║    ╚████╔╝   ) )
+              ) )  ██║     ██╔══██║██║     ██╔══██║██╔══██╗██║   ██║     ╚██╔╝   ( ( 
+             ( (   ╚██████╗██║  ██║███████╗██║  ██║██║  ██║██║   ██║      ██║     ) )
+              ) )   ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝    ( (   
+             ( (_.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._) )
+              `._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.,'
+
+     ".yellow
     end
 
     def self.heart_animation
