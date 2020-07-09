@@ -1,10 +1,14 @@
 class User < ActiveRecord::Base
     has_many :reviews
     has_many :charities, through: :reviews
-    
+
     def self.logging_someone_in
         prompt = TTY::Prompt.new
         user_name = prompt.ask("Insert your username:")
+        spinner = TTY::Spinner.new("[:spinner] Loading...".colorize(:color => :yellow, :background => :light_white), format: :arrow_pulse)
+        spinner.auto_spin 
+        sleep(1)
+        spinner.stop('Done!'.colorize(:color => :yellow, :background => :light_white))
         find_user = User.find_by(user_name: user_name)
         if find_user
             return find_user 
@@ -56,7 +60,9 @@ def display_charities_in_my_city
     Review.display_reviews_by_charity(found_charity)
 end
     
+    #add "you dont have any reviews"
     def see_my_reviews
+        self.reload
         prompt = TTY::Prompt.new
         user_reviews = self.reviews
         revs_to_print = user_reviews.map do |rev| 
@@ -68,7 +74,7 @@ end
             prompt.select("Options: ") do |m|
                 m.choice "Update review", -> {self.update_review_content(review)}
                 m.choice "Delete review", -> {Review.delete_review(review)}
-                m.choice "Choose another review", -> {self.see_my_reviews}
+                m.choice "Choose another review", -> {self.see_my_reviews} 
                 m.choice "Back to main menu", -> {return}
             end
     end

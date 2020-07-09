@@ -26,5 +26,5 @@
 ## Gems Used
 - [TTY::Prompt](https://github.com/piotrmurach/tty-prompt)
 - [TTY::Table](https://github.com/piotrmurach/tty-table#ttytable-)
+- [TTY::Spinner](https://github.com/piotrmurach/tty-spinner)
 - [Colorize](https://github.com/fazibear/colorize)
-- [Ruby Paint](https://www.rubydoc.info/gems/paint/2.2.0)

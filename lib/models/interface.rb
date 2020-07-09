@@ -426,6 +426,66 @@ class Interface
             end
         end
       end
+<<<<<<< HEAD
+=======
+
+
+    #   def person_animation
+    #     frame0 = "      o    
+    #                    /|\ 
+    #                    / \  
+    #                    "
+
+    #     frame1 = "
+    #                    \ o /    
+    #                     /|\    
+    #                     / \  
+    #                     "
+
+    #     frame2 = "
+    #                     _ o   
+    #                     /\  
+    #                     | \
+    #     "
+    #     frame3 = " 
+        
+    #                     __\o  
+    #                     /) | 
+    #     "
+
+    #     frame4 = " 
+    #                 __|   
+    #                    \o    
+    #                    ( \
+    #     "
+
+    #     frame5 = "
+    #                 \ /       
+    #                  |    
+    #                 /o\ 
+    #     "
+
+    #     frame6 = " 
+    #                    |__     
+    #                  o/      
+    #                 / )  
+    #     "
+
+    #     frame7 = "
+            
+    #                 o/__  
+    #                 |  ( \  
+    #     "
+        
+    #     frame8 = "
+                    
+    #                 o _   
+    #                 /\     
+    #                 / | 
+    #     "
+    #   end
+
+>>>>>>> master
     
 end
 
