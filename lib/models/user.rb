@@ -42,8 +42,6 @@ def display_all_charities
     #user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
 end
 
-
-
 def display_charities_in_my_city
     prompt = TTY::Prompt.new
     my_charities = Charity.find_by_city(self.city)
