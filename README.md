@@ -2,7 +2,7 @@
 
 ![Chalirty Home](./chlarity-home.png)
 
-**Chalarity** is a CLI app that allows you to look up charity ratings so you can be an informed donor.
+**Chlarity** is a CLI app that allows you to look up charity ratings so you can be an informed donor.
 
 ## How to Install
 1. Clone the repo onto your local machine.
