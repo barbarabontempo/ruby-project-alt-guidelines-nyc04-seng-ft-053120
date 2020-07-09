@@ -95,7 +95,9 @@ class User < ActiveRecord::Base
         end
     end
     
+    #add "you dont have any reviews"
     def see_my_reviews
+        self.reload
         prompt = TTY::Prompt.new
         user_reviews = self.reviews
         revs_to_print = user_reviews.map do |rev| 
@@ -107,7 +109,7 @@ class User < ActiveRecord::Base
             prompt.select("Options: ") do |m|
                 m.choice "Update review", -> {self.update_review_content(review)}
                 m.choice "Delete review", -> {Review.delete_review(review)}
-                m.choice "Choose another review", -> {self.see_my_reviews}
+                m.choice "Choose another review", -> {self.see_my_reviews} 
                 m.choice "Back to main menu", -> {return}
             end
     end

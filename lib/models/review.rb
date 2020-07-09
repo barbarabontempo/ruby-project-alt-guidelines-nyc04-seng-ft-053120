@@ -54,4 +54,7 @@ class Review < ActiveRecord::Base
         review.destroy
     end
 
+
+
+
 end

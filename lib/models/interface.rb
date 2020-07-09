@@ -33,7 +33,7 @@ class Interface
                                                       ".yellow
         puts " 
             o   \ o /  _ o        __|    \ /     |__         o _  \ o /   o   
-           /|\    |     /\   __\o   \o    |    o/     o/__   /\     |    /|\  
+           /|\\     |     /\   __\o   \o    |    o/     o/__   /\     |    /|\  
            / \   / \   | \  /) |    ( \  /o\  / )    |   (\  / |   / \   / \ 
         "                                            
         puts "          Chlarity is happy to see you #{user.user_name}!          ".yellow
