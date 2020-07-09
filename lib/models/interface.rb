@@ -426,8 +426,6 @@ class Interface
             end
         end
       end
-<<<<<<< HEAD
-=======
 
 
     #   def person_animation
@@ -485,7 +483,6 @@ class Interface
     #     "
     #   end
 
->>>>>>> master
     
 end
 
