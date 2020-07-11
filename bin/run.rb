@@ -15,4 +15,4 @@ interface.user = user_instance
 
 interface.main_menu
 
-puts "hello world"
+#puts "hello world"
