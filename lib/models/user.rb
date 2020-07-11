@@ -43,7 +43,11 @@ def display_all_charities
     found_charity = Charity.find_by(name: charity)
     #binding.pry
     Review.display_reviews_by_charity(found_charity)
-    #user_review = Review.find_by(user_id: self.id, charity_id: charity.id)
+    answer = prompt.select("Options: ") do |menu|
+        menu.choice "Create review", -> {self.write_review_for_charity(found_charity)} #then once in here, be able to filter by cities
+        menu.choice "View another charity", -> {self.display_all_charities}
+        menu.choice "Back to main menu", -> {return}
+    end
 end
 
 def display_charities_in_my_city
@@ -57,7 +61,13 @@ def display_charities_in_my_city
     charity = values_to_print[charity_idx - 1][1]
     found_charity = Charity.find_by(name: charity)
     #binding.pry
+    #Review.display_reviews_by_charity(found_charity)
     Review.display_reviews_by_charity(found_charity)
+    answer = prompt.select("Options: ") do |menu|
+        menu.choice "Create review", -> {self.write_review_for_charity(found_charity)} #then once in here, be able to filter by cities
+        menu.choice "View another charity", -> {self.display_all_charities}
+        menu.choice "Back to main menu", -> {return}
+    end
 end
     
     #add "you dont have any reviews"
@@ -68,15 +78,20 @@ end
         revs_to_print = user_reviews.map do |rev| 
             [rev.charity.name, rev.rating, rev.heading, rev.body]
         end
-        Review.user_reviews_display_table(revs_to_print)
-        rev_idx = prompt.ask("Please choose a review to edit [1-#{revs_to_print.length}]:", convert: :int)
-        review = user_reviews[rev_idx - 1]
-            prompt.select("Options: ") do |m|
-                m.choice "Update review", -> {self.update_review_content(review)}
-                m.choice "Delete review", -> {Review.delete_review(review)}
-                m.choice "Choose another review", -> {self.see_my_reviews} 
-                m.choice "Back to main menu", -> {return}
-            end
+        if revs_to_print.empty? 
+            puts "You have not written any reviews!"
+        else 
+            Review.user_reviews_display_table(revs_to_print)
+            rev_idx = prompt.ask("Please choose a review to edit [1-#{revs_to_print.length}]:", convert: :int)
+            review = user_reviews[rev_idx - 1]
+                prompt.select("Options: ") do |m|
+                    m.choice "Update review", -> {self.update_review_content(review)}
+                    m.choice "Delete review", -> {Review.delete_review(review)}
+                    m.choice "Choose another review", -> {self.see_my_reviews} 
+                    m.choice "Back to main menu", -> {return}
+                end
+        end
+     
     end
 
     def create_review(heading:, body:, rating:, charity:)
